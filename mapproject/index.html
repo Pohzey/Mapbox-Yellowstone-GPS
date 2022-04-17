@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Yellowstone Park Locations</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Montserrat&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+    <style>
+    	html, body {
+	        height: 100%;
+	        width: 100%;
+	        padding: 0;
+	        margin: 0;
+	        z-index: 5;
+	        font-family: 'Montserrat', sans-serif;
+        }
+
+        header {
+        	background-color: #7a876f;
+        	text-align:  center;
+        	z-index: 4;
+        	color: #f6f6ef;
+        	font-size: 2.5em;
+        	padding: 1%;
+        	font-weight: bold;
+        	font-family: 'Montserrat', sans-serif;
+        	letter-spacing: 1px;
+        }
+
+        #container {
+        	position: fixed;
+            background-color: #7a876f;
+            left: 7%;
+            top: 18%;
+            width: 500px;
+            height: auto;
+            z-index: 7;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        #content {
+        	width: 80%;
+            height: 100%;
+            overflow: hidden;
+            margin: auto;
+            padding: 2%;
+            color: #f6f6ef;
+            font-size: 1.1em;
+        }
+
+        #introduction h2 {
+    		font-family: 'Montserrat', sans-serif;
+    		letter-spacing: 1px;
+        	font-size: 1.5em;
+        }
+
+        .places {
+        	overflow: hidden;
+        }
+
+        .places img {
+        	height: 250px;
+        	width: 400px;
+        	padding-bottom: 3%;
+        	text-align: center;
+        }
+
+    	#map {
+    		height: 100%;
+    		width: 100%;
+    		z-index: 0;
+    	}
+
+    	 #map-container {
+            position: fixed;
+            left: 0;
+            top: 80px;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+         .marker {
+            background-image: url(mapmarker.png);
+            background-size: cover;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        button  {
+           position: absolute;
+           top: 80%;
+           right: 2%;
+           font-size: 1em;
+           padding: 1%;
+           z-index: 10;
+           border-radius: 10px;
+           background: red;
+           color: white;
+           border: none;
+        }
+
+        .mapboxgl-popup {
+        	display: none;
+        }
+
+    </style>
+</head>
+
+	<body>
+		 <header>Must See Landmarks and Wildlife Spots in Yellowstone National Park</header>
+		    <div id="map-container">
+		       <div id='map'></div>
+		       <button>Map Reset</button>
+		    </div>
+
+		     <div id="container">
+       			<div id='content'>
+		           	<div class="places" id="introduction"><p>The Yellowstone National Park one of the most intact ecosystems remaining in North America and is largely considered the first National Park in the world. Yellowstone is one of the worlds active supervolcanos which has erupted several times in the past couple million years, each time being a globe altering event. Due to this, Yellowstone is an incredibly active geothermal region where one of the most famous landmarks is the Old Faithful Geyser. Wildlife has incredible diversity here, where you could observe the largest public Bison herd in the world and observe wild animals in their most natural habitats. This map will pinpoint some of the many beautiful and most popular stopping points to visit during any trip made to Yellowstone National Park.</p></div>
+       			</div>
+   			</div>
+		
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoicG9oemV5IiwiYSI6ImNsMHVhOHMyazBsdHQzYnA3a3Q0d3ZxNHkifQ.P7FglJLDBdhaGUnIu9F0xw';
+
+		let geojson = {
+	    "type": "FeatureCollection",
+	    "features": [{
+	         "type": "Feature",
+	         "geometry": {
+	             "type": "Point",
+	             "coordinates": [-110.828, 44.464]
+	         },
+	         "properties": {
+	             "title": "Old Faithful",
+	             "description": "Geyser",
+	             "url": '#yellowstone',
+	             "image": "oldfaithful.jpg",
+	             "about": "Yellowstone has many geysers which are capable of shooting boiling how water high into the air. None are as consistent and as magnificent as the geyser dubbed 'Old Faithful'. Presently, Old Faithful erupts a giant water spout up to 180 feet into the air at least once every 90 minutes."
+	         }
+	     },
+	     {
+	         "type": "Feature",
+	         "geometry": {
+	         "type": "Point",
+	         "coordinates": [-110.333, 44.448]
+	        },
+	         "properties": {
+	             "title": "Yellowstone Lake",
+	             "description": "Lake",
+	             "url": '#yellowstone',
+	             "image": "yellowstonelake.jpg",
+	             "about": "Yellowstone Lake is one of the most prime destinations on any tour of Yellowstone National Park. It has a rich Native American history dating back an estimated 11000 years. The lake is the largest lake in the world sitting over 7000 feet above sea level and provides some of the most pristine visuals you could ever see."
+	         }
+	     },
+	     {
+	         "type": "Feature",
+	         "geometry": {
+	         "type": "Point",
+	         "coordinates": [-110.469, 44.669]
+	        },
+	         "properties": {
+	             "title": "Hayden Valley",
+	             "description": "valley",
+	             "url": '#yellowstone',
+	             "image": "haydenvalley.jpg",
+	             "about": "Hayden Valley is the best location to view wildlife in Yellowstone National Park. The valley is a large wildlife habitat where buffalo, elk, grizzly bears, wolves, coyote, and a plethora of smaller animals and birds could be observed ranging across the vast landscape. "
+	         }
+	     },
+	     {
+	         "type": "Feature",
+	         "geometry": {
+	         "type": "Point",
+	         "coordinates": [-110.496, 44.718]
+	        },
+	         "properties": {
+	             "title": "Lower Yellowstone Falls",
+	             "description": "Waterfall",
+	             "url": '#yellowstone',
+	             "image": "lyellowfalls.jpg",
+	             "about": "Lower Yellowstone Falls is, as the name suggests, the lower elevation point and second plunge point of the Yellowstone Falls as it flows out of the Hayden Valley. About a quarter mile downstream from the Upper Yellowstoen Falls, this waterfall is more magnificent because it plunges into the Grand Canyon of the Yellowstone. Lower Yellowstone Falls is the largest waterfall in terms of volume within the Rocky Mountains and is twice as high as Niagara Falls."
+	         }
+	     },
+	     {
+	         "type": "Feature",
+	         "geometry": {
+	         "type": "Point",
+	         "coordinates": [-110.485, 44.719]
+	        },
+	         "properties": {
+	             "title": "Grand Canyon of the Yellowstone",
+	             "description": "canyon",
+	             "url": '#yellowstone',
+	             "image": "gcyellowstone.jpg",
+	             "about": "Not to be confused with the world famous Grand Canyon in Arizona, the canyon found in Yellowstone is a marvel in its own right. The Grand Canyon of the Yellowstone is approximately 1,200 feet deep and 24 miles long. The Yellowstone Falls plunges into the canyon from the Hayden Valley and offerse a breathtaking view for any tourist and nature lover."
+	         }
+	     },
+
+	     {
+	         "type": "Feature",
+	         "geometry": {
+	         "type": "Point",
+	         "coordinates": [-110.721, 44.417]
+	        },
+	         "properties": {
+	             "title": "Yellowstone Caldera",
+	             "description": "caldera",
+	             "url": '#yellowstone',
+	             "image": "ycaldera.jpg",
+	             "about": "Of course, Yellowstone is most known far being one of the supervolcanoes of the Earth and some scientists warn an eruption could happen within decades. So, a trip to Yellowstone would not be complete without seeing the caldera in person. The Yellowstone Caldera is one of three that have formed over the last 3 eruptions over the last millions of years. Words can't really describe the feeling of being so close to something that could erupt in a magnitude rarely seen on Earth."
+	         }
+	     }]
+	     
+		};
+
+    
+    let reset = document.querySelector('button');
+
+    	// a variable for the reset button to appear and disappear
+    
+    let map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/outdoors-v11',
+        center: [-110.66033610838308, 44.42291170887052],
+        zoom: 8.0 //starting zoom level
+    });
+
+
+        // add markers to map
+    geojson.features.forEach(function(marker) {
+
+        // html element for each feature
+        let el = document.createElement('div');
+        el.className = 'marker';
+
+        el.addEventListener('click', function() {
+
+        	let title = marker.properties.title;
+            let about = marker.properties.about;
+            let image = marker.properties.image;
+
+            document.getElementById('introduction').innerHTML = 
+            '<h2>' + title + '</h2><p>' + about + '</p><img src=' + image + '>';
+
+            map.flyTo({
+                center: marker.geometry.coordinates, 
+                zoom: 14
+            });
+            window.location = marker.properties.url;
+            reset.classList.remove('hide');
+            reset.classList.add('show');
+        });
+
+        
+
+        // Map Marker stuff
+        new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .setPopup(new mapboxgl.Popup({offset: 25}) // add popups
+            .setHTML(`<h3>${marker.properties.title}</h3><p>${marker.properties.description}</p>`))
+            .addTo(map);
+
+
+    });
+    	//end marker settings
+
+    // disable map zoom when using scroll
+    map.scrollZoom.disable();
+
+    //click event for reset button
+   reset.addEventListener('click', function() {
+            map.flyTo({
+                center:[-110.66033610838308, 44.42291170887052], 
+                zoom: 8.0
+            });
+            reset.classList.remove('show');
+            reset.classList.add('hide');
+
+        });
+
+	</script>
+	</body>
+</html>
